@@ -2,10 +2,11 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage,  useFormik } from 'formik';
 import * as Yup from 'yup';
 import { log } from 'console';
+import { Link } from 'react-router-dom';
 
 
 const validateLoginForm = Yup.object().shape({
-    username: Yup.string()
+    email: Yup.string()
     .min(4, 'Too short!')
     .max(50, 'Too long!')
     .required('Required'),
@@ -28,8 +29,10 @@ const onSubmitLoginForm = (values:any) => {
 
 const displayLoginForm = (errors: any, touched: any) => {
     return <Form> 
-        <Field name="username"/>
-        {touched.username && errors.username && <div>{errors.username}</div>}
+        <label htmlFor='email'>Email</label>
+        <Field type="email" name="email"/>
+        {touched.email && errors.email && <div>{errors.email}</div>}
+        <label htmlFor="password">Password</label>
         <Field name="password"/>
         {touched.password && errors.password && <div>{errors.password}</div>}
         <button type="submit">Login</button>
@@ -41,12 +44,18 @@ export const Login = () => (
     <div>
         <h1>Login</h1>
         <Formik 
-        initialValues={{username:'', password:''}} 
+        initialValues={{email:'', password:''}} 
         validationSchema={validateLoginForm}
         onSubmit={(values) => onSubmitLoginForm(values)}>
 
             {({errors, touched}) => displayLoginForm(errors, touched)}
 
         </Formik>
+        <p>Don't have an account?</p>
+        <Link to="/register">Register</Link>
     </div>
 )
+
+
+// private String email;
+// private String password;
